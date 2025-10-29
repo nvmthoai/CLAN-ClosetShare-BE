@@ -114,6 +114,13 @@ export class OutfitService {
       select: {
         id: true,
         name: true,
+        user_id: true,
+        style: true,
+        occasion: true,
+        season: true,
+        color_theme: true,
+        created_at: true,
+        updated_at: true,
         bottom: true,
         top: true,
         outwear: true,
@@ -133,6 +140,12 @@ export class OutfitService {
         id: true,
         name: true,
         user_id: true,
+        style: true,
+        occasion: true,
+        season: true,
+        color_theme: true,
+        created_at: true,
+        updated_at: true,
         top: true,
         bottom: true,
         outwear: true,
@@ -156,6 +169,12 @@ export class OutfitService {
         id: true,
         name: true,
         user_id: true,
+        style: true,
+        occasion: true,
+        season: true,
+        color_theme: true,
+        created_at: true,
+        updated_at: true,
         top: true,
         bottom: true,
         outwear: true,
@@ -177,7 +196,20 @@ export class OutfitService {
       }
 
       const image = await this.cloudflareService.getDownloadedUrl(item.image);
-      return { ...item, image };
+
+      // Return a consistent response shape with the new fields
+      return {
+        id: item.id,
+        user_id: item.user_id,
+        name: item.name,
+        type: item.type,
+        image,
+        color_palette: item.color_palette ?? null,
+        material: item.material ?? null,
+        style_tag: item.style_tag ?? null,
+        created_at: item.created_at ? item.created_at.toISOString() : null,
+        updated_at: item.updated_at ? item.updated_at.toISOString() : null,
+      };
     };
 
     const [top, bottom, outwear] = await Promise.all([
@@ -195,7 +227,15 @@ export class OutfitService {
       : outfit.accessories;
 
     return {
-      ...outfit,
+      id: outfit.id,
+      name: outfit.name,
+      user_id: outfit.user_id,
+      style: outfit.style ?? null,
+      occasion: outfit.occasion ?? null,
+      season: outfit.season ?? null,
+      color_theme: outfit.color_theme ?? null,
+      created_at: outfit.created_at ? outfit.created_at.toISOString() : null,
+      updated_at: outfit.updated_at ? outfit.updated_at.toISOString() : null,
       top,
       bottom,
       outwear,
